@@ -11,13 +11,13 @@ folloger-libs is a [folloger](https://www.folloger.com) access lirbary.
 
 ## USAGE
 
-# get [open-es](https://github.com/waspcojp/open-es.git)
+* get [open-es](https://github.com/waspcojp/open-es.git)
 
-# get [this](https://github.com/waspcojp/folloger-libs.git)
+* get [this](https://github.com/waspcojp/folloger-libs.git)
 
-# cd folloger-libs/libs; ln ../../open-es/src/data_abstraction.rb
+* cd folloger-libs/libs; ln ../../open-es/src/data_abstraction.rb
 
-# run sample
+* run sample
 
 ## files
 
