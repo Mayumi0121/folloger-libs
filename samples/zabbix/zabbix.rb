@@ -6,6 +6,7 @@ require 'cgi'
 require 'json'
 require 'open-uri'
 require 'nokogiri'
+require 'pg'
 
 $LOAD_PATH << "./libs"
 require 'data_abstraction'
@@ -32,6 +33,28 @@ class Zabbix < Batch::Base
       ;
     end
     ret
+  end
+  def plugin_build(params)
+    case (params['key'])
+    when 'pg.connection'
+      conn = PG::connect(params['options'])
+      res = conn.exec("SELECT COUNT(*) FROM pg_stat_activity")
+      value = res[0]['count'].to_i
+      conn.finish
+    else
+      value = nil
+    end
+    if ( params['class'] )
+      params['class'].new({
+                            'at' => Time.now,
+                            'value' => value,
+                            'unit' => params['unit']
+                          },
+                          'sensor_name' => params['name'])
+    else
+      print value, "\n"
+      nil
+    end
   end
   def simple_build(params)
     value = query(params['key'])
@@ -106,6 +129,8 @@ class Zabbix < Batch::Base
         data = ratio_build(param)
       when :diff
         data = diff_build(param)
+      when :plugin
+        data = plugin_build(param)
       end
       if ( data )
         rec << data.to_hash
