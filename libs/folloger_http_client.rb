@@ -18,7 +18,7 @@ module Folloger
       _post("data/#{uuid}", data, 10, params)
     end
     def auth_user(user, pass)
-      _post('auth_user', [ user, pass ])
+      _post('auth_user', { user: user, password: pass })
     end
     def get_data(uuid, opt = {})
       args = opt.dup
